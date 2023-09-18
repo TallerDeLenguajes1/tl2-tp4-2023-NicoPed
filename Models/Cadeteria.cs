@@ -12,7 +12,18 @@ public class Cadeteria{
     public string TelefonoCadeteria { get => telefonoCadeteria; }
     public List<Pedido> ListadoPedido { get => listadoPedido;  }
 
-    
+    //NECESITO UN GET
+    private static Cadeteria cadeteriaSingleton;
+    public static Cadeteria getCadeteria(){
+        if (cadeteriaSingleton == null)
+        {
+            Cadeteria cadeteriaStatic;
+            AccesoADatos cargarDatosCSV = new AccesoCSV();
+            cadeteriaStatic = cargarDatosCSV.leerArchivoCadeteria("CadeteriaHrms.csv");
+            cadeteriaStatic.listadoCadetes = cargarDatosCSV.leerArchivoCadetes("CadetesInscriptos.csv");
+        }
+        return cadeteriaSingleton;
+    }
     public Cadeteria(string Nombre, string Telefono){
         nombreCadeteria = Nombre;
         telefonoCadeteria = Telefono;
@@ -80,7 +91,6 @@ public class Cadeteria{
             return false;
         }
     }
-
     public float JornalACobrar(int idCadete){
         float aCobrar = constantes.CobroPorEnvio;
         var pedidosRealizados = from pedi in listadoPedido 
@@ -97,15 +107,20 @@ public class Cadeteria{
     public void CargarCadetes(List <Cadete> listadoCadetes){
         ListadoCadetes.AddRange(listadoCadetes);
     }
-    public bool AgregarPedido(int numeroPedido, string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia){
-        Pedido nuevoPedido = new Pedido(numeroPedido,observacionPedido,nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
+    public Pedido AgregarPedido(string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia){
+        Pedido nuevoPedido = new Pedido(observacionPedido,nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
         if (nuevoPedido != null)
         {
             listadoPedido.Add(nuevoPedido);
-            return true;
+            nuevoPedido.NroPedido = listadoPedido.Count;
         }
-            return false;
+            return nuevoPedido;
 
+    }
+    public Pedido AgregarPedido(Pedido pedido){
+        listadoPedido.Add(pedido);
+        pedido.NroPedido = listadoPedido.Count;
+        return pedido;
     }
     public string mostrarDatosCadeteria(){
         string datosCadeteria = nombreCadeteria + " - " + telefonoCadeteria;

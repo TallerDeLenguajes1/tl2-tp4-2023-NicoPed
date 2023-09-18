@@ -15,12 +15,11 @@ public class Pedido
     private int idCadete;
     internal Estado Estado { get => estado;  }
     public string Observacion { get => observacion;  }
-    public int NroPedido { get => nroPedido;  }
+    public int NroPedido { get => nroPedido; set => nroPedido = value;}
     public int IdCadete { get => idCadete; set => idCadete = value ;}
     public int CadeteDefault {get => cadeteDefault;}
-    public Pedido (int numeroPedido, string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia) {
+    public Pedido (string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia) {
         estado = Estado.Pendiente;
-        nroPedido = numeroPedido;
         observacion = observacionPedido;
         cliente = new Cliente(nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
         idCadete = cadeteDefault;
