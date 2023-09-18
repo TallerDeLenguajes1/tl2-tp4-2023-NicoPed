@@ -7,22 +7,25 @@ enum Estado
 }
 public class Pedido
 {
-    private int cadeteDefault = 999999;
+    public static int cadeteDefault = 999999;
     private int nroPedido;
     private string observacion;
     private Cliente cliente;
     private Estado estado;
     private int idCadete;
     internal Estado Estado { get => estado;  }
-    public string Observacion { get => observacion;  }
     public int NroPedido { get => nroPedido; set => nroPedido = value;}
     public int IdCadete { get => idCadete; set => idCadete = value ;}
-    public int CadeteDefault {get => cadeteDefault;}
+    public string Observacion { get => observacion; set => observacion = value; }
+
     public Pedido (string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia) {
         estado = Estado.Pendiente;
-        observacion = observacionPedido;
-        cliente = new Cliente(nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
+        Observacion = observacionPedido;
+        cliente = new Cliente();
         idCadete = cadeteDefault;
+    }
+    public Pedido(){
+        
     }
     public string verDireccionCliente(){
         string? direccion;

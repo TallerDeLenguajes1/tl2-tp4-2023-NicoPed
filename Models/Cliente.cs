@@ -17,4 +17,7 @@ public class Cliente{
         Telefono = telefonoCliente;
         DatosReferencia = datosReferencia;
     }
+    public Cliente(){
+        
+    }
 }

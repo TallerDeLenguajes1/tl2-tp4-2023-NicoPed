@@ -21,7 +21,7 @@ public class CadeteriaController : ControllerBase //queda
     public ActionResult<string> getNombreCadeteria()
     {
         string datos = cadeteri.mostrarDatosCadeteria();
-        return Ok(cadeteri.NombreCadeteria);
+        return Ok(datos);
     }
     //para tener dos get sin parametros agregar route
     [HttpGet]

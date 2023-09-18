@@ -19,8 +19,8 @@ public class Cadeteria{
         {
             Cadeteria cadeteriaStatic;
             AccesoADatos cargarDatosCSV = new AccesoCSV();
-            cadeteriaStatic = cargarDatosCSV.leerArchivoCadeteria("CadeteriaHrms.csv");
-            cadeteriaStatic.listadoCadetes = cargarDatosCSV.leerArchivoCadetes("CadetesInscriptos.csv");
+            cadeteriaSingleton = cargarDatosCSV.leerArchivoCadeteria("CadeteriaHrms.csv");
+            cadeteriaSingleton.listadoCadetes = cargarDatosCSV.leerArchivoCadetes("CadetesInscriptos.csv");
         }
         return cadeteriaSingleton;
     }
@@ -35,7 +35,7 @@ public class Cadeteria{
         if (pedidoACambiar != null)
         {
             if (pedidoACambiar.CancelarPedido()){
-                pedidoACambiar.IdCadete = pedidoACambiar.CadeteDefault;
+                pedidoACambiar.IdCadete = Pedido.cadeteDefault;
                 return true;
             }else
             {
