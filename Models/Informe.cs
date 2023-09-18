@@ -2,22 +2,22 @@ namespace webApiTP4
 {
     public class Informe
     {
-        private string? nombreCadete;
+        private string nombreCadete;
         private int idCadete;
         private int pedidosRealizados;
         private float totalACobrar;
         private int enviosPromedio;
 
-        public string? NombreCadete { get => nombreCadete; set => nombreCadete = value; }
+        public string NombreCadete { get => nombreCadete; set => nombreCadete = value; }
         public int IdCadete { get => idCadete; set => idCadete = value; }
         public int PedidosRealizados { get => pedidosRealizados; set => pedidosRealizados = value; }
         public float TotalACobrar { get => totalACobrar; set => totalACobrar = value; }
         public int EnviosPromedio { get => enviosPromedio; set => enviosPromedio = value; }
 
 
-        public static Informe GenerarInforme(Cadeteria cadeteria)
+        public static Informe[] GenerarInforme(Cadeteria cadeteria)
         {
-            var informes = new Informe ();
+            var informes = new List<Informe>();
 
             var pedidosRealizados = from pedi in cadeteria.ListadoPedido
                                     where pedi.Estado == Estado.Entregado
@@ -30,7 +30,7 @@ namespace webApiTP4
                 int idCadete = cadete.IdCadete;
                 float aCobrar = cadeteria.JornalACobrar(idCadete);
                 int pedidosRealizadosCadete = Convert.ToInt32(aCobrar / constantes.CobroPorEnvio);
-                int enviosPromedio = cantidadDePedidosDeHoy != 0 ? pedidosRealizadosCadete * 100 / cantidadDePedidosDeHoy : 0; //alfin pude usar un ternario xd
+                int enviosPromedio = cantidadDePedidosDeHoy != 0 ? pedidosRealizadosCadete * 100 / cantidadDePedidosDeHoy : 0;
 
                 var informe = new Informe
                 {
@@ -40,17 +40,14 @@ namespace webApiTP4
                     TotalACobrar = aCobrar,
                     EnviosPromedio = enviosPromedio
                 };
+
+                informes.Add(informe);
             }
 
-            return informes;
+            return informes.ToArray();
         }
     }
 }
-
-
-
-
-
 
 
 

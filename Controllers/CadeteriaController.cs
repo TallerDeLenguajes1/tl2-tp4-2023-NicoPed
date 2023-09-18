@@ -77,7 +77,7 @@ public class CadeteriaController : ControllerBase //queda
     }   
     [HttpGet]
     [Route("getInforme")]
-    public ActionResult <Informe> getInforme(){
+    public ActionResult <IEnumerable<Informe>> getInforme(){
         var nuevoInforme = Informe.GenerarInforme(cadeteri);
         return Ok(nuevoInforme);
     }
