@@ -17,24 +17,25 @@ public class Pedido
     public int NroPedido { get => nroPedido; set => nroPedido = value;}
     public int IdCadete { get => idCadete; set => idCadete = value ;}
     public string Observacion { get => observacion; set => observacion = value; }
+    public Cliente Cliente { get => cliente; set => cliente = value; }
 
     public Pedido (string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia) {
         estado = Estado.Pendiente;
         Observacion = observacionPedido;
-        cliente = new Cliente();
+        this.Cliente = new Cliente(nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
         idCadete = cadeteDefault;
     }
     public Pedido(){
-        
+        this.Cliente = new Cliente(); 
     }
     public string verDireccionCliente(){
         string? direccion;
-        direccion = cliente.Direccion + "-" + cliente.DatosReferencia;
+        direccion = Cliente.Direccion + "-" + Cliente.DatosReferencia;
         return direccion;
     }
     public string verDatosCliente(){
         string? datos;
-        datos = cliente.Nombre + "-" + cliente.Telefono;
+        datos = Cliente.Nombre + "-" + Cliente.Telefono;
         return datos;
     }
      public bool CambiarPedidoDeEstado(){

@@ -39,12 +39,15 @@ public class CadeteriaController : ControllerBase //queda
         return Ok(cadetes);
     }
     
+
     [HttpPost]
     [Route("AgregarPedido")]
-    public ActionResult<Pedido> agregarPedido(Pedido pedido){
-        var nuevoPedido = cadeteri.AgregarPedido(pedido);
+    public ActionResult<Pedido> agregarPedido(string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia){ //aqui manda todos los parametros que necesitas para usar el constructor con parametros
+        Pedido pedAux = new Pedido( observacionPedido,  nombreCliente,  direccionCliente,  telefonoCliente,  datoDeReferencia);
+        var nuevoPedido = cadeteri.AgregarPedido(pedAux);
         return Created("",nuevoPedido);
     }
+
 
     [HttpPut]
     [Route ("AsignarPedido")]
