@@ -17,7 +17,7 @@ public class Cliente{
         Telefono = telefonoCliente;
         DatosReferencia = datosReferencia;
     }
-    public Cliente(){
+    // public Cliente(){ // si quisera tenerlo como para json tengo que tener esto y dejarlo con un set en Pedidos
         
-    }
+    // }
 }
