@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace webApiTP4;
 
 public class AccesoADatosCadeteria{
-    Cadeteria Obtener(string nombreArchivo){
+    public Cadeteria Obtener(string nombreArchivo){
         string? archivo;
         Cadeteria nuevaCadeteria = null;
         using(var archivoOpen = new FileStream(nombreArchivo,FileMode.Open)){

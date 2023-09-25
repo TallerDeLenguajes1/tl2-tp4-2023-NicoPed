@@ -11,7 +11,7 @@ public class Cadeteria{
     public string NombreCadeteria { get => nombreCadeteria;  }
     public string TelefonoCadeteria { get => telefonoCadeteria; }
     public List<Pedido> ListadoPedido { get => listadoPedido;  }
-
+    private AccesoADatosPedidos accesoPedidos = new AccesoADatosPedidos();
     //NECESITO UN GET
     private static Cadeteria cadeteriaSingleton;
     public static Cadeteria getCadeteria(){
@@ -51,12 +51,13 @@ public class Cadeteria{
         var pedidoACambiar = BuscarPedido(numeroPedido);
         if (pedidoACambiar != null)
         {
-            return pedidoACambiar.CambiarPedidoDeEstado();
-            
-        }else
-        {
-            return false;
+            if (pedidoACambiar.CambiarPedidoDeEstado())
+            {
+                accesoPedidos.Guardar(listadoPedido);
+                return true;
+            }
         }
+        return false;   
     }
     public Cadete buscarCadete(int idCadete){
         Cadete cadeteBuscado;
@@ -77,19 +78,12 @@ public class Cadeteria{
                 if (buscarCadete(idDelCadete) != null)
                 {
                     pedioAsignar.IdCadete = idDelCadete;
+                    accesoPedidos.Guardar(listadoPedido);
                     return true;
-
-                }else
-                {
-                    return false;
                 }
-            }else
-            {
-                return false;
             }
-        }else{
-            return false;
         }
+        return false;
     }
     public float JornalACobrar(int idCadete){
         float aCobrar = constantes.CobroPorEnvio;
@@ -113,6 +107,7 @@ public class Cadeteria{
         {
             listadoPedido.Add(nuevoPedido);
             nuevoPedido.NroPedido = listadoPedido.Count;
+            accesoPedidos.Guardar(listadoPedido);
         }
             return nuevoPedido;
 
@@ -120,6 +115,7 @@ public class Cadeteria{
     public Pedido AgregarPedido(Pedido pedido){
         listadoPedido.Add(pedido);
         pedido.NroPedido = listadoPedido.Count;
+        accesoPedidos.Guardar(listadoPedido);
         return pedido;
     }
     public string mostrarDatosCadeteria(){
