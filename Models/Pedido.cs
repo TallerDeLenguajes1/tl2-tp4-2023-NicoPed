@@ -28,12 +28,12 @@ public class Pedido
 
     public string verDireccionCliente(){
         string? direccion;
-        direccion = Cliente.Direccion + "-" + Cliente.DatosReferencia;
+        direccion = Cliente.Direccion + ";" + Cliente.DatosReferencia;
         return direccion;
     }
     public string verDatosCliente(){
         string? datos;
-        datos = Cliente.Nombre + "-" + Cliente.Telefono;
+        datos = $"{Cliente.Nombre};{Cliente.Direccion};{Cliente.Telefono};{Cliente.DatosReferencia}";
         return datos;
     }
      public bool CambiarPedidoDeEstado(){
@@ -54,7 +54,7 @@ public class Pedido
     }
     public string DatosDelPedido(){
         string? datos;
-        datos = $" Nro Pedido: {NroPedido.ToString()}\nEstado: {Estado.ToString()}\nCadete Asignado: {IdCadete}\nObservacion: {Observacion}\nDatos del Cliente {verDatosCliente()}Direccion del Cliente : {verDireccionCliente()} ";
+        datos = $"{NroPedido.ToString()};{Estado.ToString()};{IdCadete};{Observacion};{verDatosCliente()}";
         return datos;
     }
 }
