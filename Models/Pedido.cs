@@ -25,9 +25,7 @@ public class Pedido
         cliente = new Cliente(nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
         idCadete = cadeteDefault;
     }
-    // public Pedido(){
-    //     this.Cliente = new Cliente(); 
-    // }
+
     public string verDireccionCliente(){
         string? direccion;
         direccion = Cliente.Direccion + "-" + Cliente.DatosReferencia;
