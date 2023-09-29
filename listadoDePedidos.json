@@ -1,0 +1,35 @@
+[
+    {
+        "NroPedido": 1,
+        "IdCadete": 999999,
+        "Observacion": "1",
+        "Cliente": {
+            "Nombre": "1",
+            "Direccion": "1",
+            "Telefono": "1",
+            "DatosReferencia": "1"
+        }
+    },
+    {
+        "NroPedido": 2,
+        "IdCadete": 999999,
+        "Observacion": "12",
+        "Cliente": {
+            "Nombre": "12",
+            "Direccion": "12",
+            "Telefono": "12",
+            "DatosReferencia": "12"
+        }
+    },
+    {
+        "NroPedido": 3,
+        "IdCadete": 999999,
+        "Observacion": "123",
+        "Cliente": {
+            "Nombre": "123",
+            "Direccion": "123",
+            "Telefono": "123",
+            "DatosReferencia": "123"
+        }
+    }
+]

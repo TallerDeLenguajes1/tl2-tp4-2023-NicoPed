@@ -120,9 +120,11 @@ public class Cadeteria{
         aCobrar *= pedidosRealizados.Count();
         return aCobrar;
     }
-    public void AgregarCadete(int IdCadete, string NombreCadete, string DireccionCadete, string TelefonoCadete){
-        Cadete nuevoCadete = new Cadete(IdCadete,NombreCadete,DireccionCadete,TelefonoCadete);
+    public Cadete AgregarCadete(Cadete nuevoCadete){
         ListadoCadetes.Add(nuevoCadete);
+        nuevoCadete.IdCadete = listadoCadetes.Count();
+        accesoCadetes.Guardar(listadoCadetes);
+        return nuevoCadete;
     }
     // public void CargarCadetes(List <Cadete> listadoCadetes){
     //     ListadoCadetes.AddRange(listadoCadetes);

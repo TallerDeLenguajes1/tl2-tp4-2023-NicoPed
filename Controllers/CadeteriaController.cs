@@ -38,8 +38,28 @@ public class CadeteriaController : ControllerBase //queda
         var cadetes = cadeteri.ListadoCadetes;
         return Ok(cadetes);
     }
-    
-
+    [HttpGet]
+    [Route("Pedido")]
+    public ActionResult<Pedido> getPedido(int idPedido)
+    {
+        var pedido = cadeteri.BuscarPedido(idPedido);
+        if (pedido != null)
+        {
+            return Ok(pedido);
+        }
+        return BadRequest("Algo salio mal. El pedido con ese Id no existe");
+    }
+[HttpGet]
+    [Route("Cadete")]
+    public ActionResult<Cadete> getCadete(int idCadete)
+    {
+        var cadete = cadeteri.buscarCadete(idCadete);
+        if (cadete != null)
+        {
+            return Ok(cadete);
+        }
+        return BadRequest("Algo salio mal. El cadete con ese Id no existe");
+    }
     [HttpPost]
     [Route("AgregarPedido")]
     public ActionResult<Pedido> agregarPedido(string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia){ //aqui manda todos los parametros que necesitas para usar el constructor con parametros
@@ -47,7 +67,12 @@ public class CadeteriaController : ControllerBase //queda
         var nuevoPedido = cadeteri.AgregarPedido(pedAux);
         return Created("",nuevoPedido);
     }
-
+    [HttpPost]
+    [Route("AddCadete")]
+    public ActionResult<Pedido> AddCadete(Cadete cadete){ //aqui manda todos los parametros que necesitas para usar el constructor con parametros
+        var nuevoCadete = cadeteri.AgregarCadete(cadete);
+        return Created("",nuevoCadete);
+    }
 
     [HttpPut]
     [Route ("AsignarPedido")]

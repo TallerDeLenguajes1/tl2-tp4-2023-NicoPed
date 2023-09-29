@@ -19,4 +19,13 @@ public class AccesoADatosCadetes{
         }
         return nuevaListaDeCadetes;
     }
+    public void Guardar(List<Cadete> listadoCadetes){
+        string nombreArchivo = "cadetes.json";
+        if (!File.Exists(nombreArchivo))
+        {
+            File.Create(nombreArchivo).Close();
+        }
+        string json = JsonSerializer.Serialize(listadoCadetes);
+        File.WriteAllText(nombreArchivo,json);
+    }
 }
