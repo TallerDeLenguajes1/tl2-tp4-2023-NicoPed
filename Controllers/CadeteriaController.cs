@@ -14,7 +14,7 @@ public class CadeteriaController : ControllerBase //queda
     public CadeteriaController(ILogger<CadeteriaController> logger) //queda
     {
         _logger = logger;
-        cadeteri = Cadeteria.getCadeteria();
+        cadeteri = Cadeteria.GetInstance();
     }
   
     [HttpGet]

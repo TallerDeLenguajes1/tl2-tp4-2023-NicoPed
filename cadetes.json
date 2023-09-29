@@ -1,0 +1,14 @@
+[
+    {
+      "IdCadete": 1,
+      "NombreCadete": "Nicolas",
+      "DireccionCadete": "Lampacito",
+      "TelefonoCadete": "3834943688"
+    },
+    {
+      "IdCadete": 2,
+      "NombreCadete": "Marquitos",
+      "DireccionCadete": "SantaMaria",
+      "TelefonoCadete": "3838943688"
+    }
+  ]

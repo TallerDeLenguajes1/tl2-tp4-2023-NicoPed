@@ -11,6 +11,9 @@ public class Cliente{
     public global::System.String Telefono { get => telefono; set => telefono = value; }
     public global::System.String DatosReferencia { get => datosReferencia; set => datosReferencia = value; }
 
+    public Cliente(){
+        
+    }
     public Cliente(string nombreCliente, string direccionCliente,string telefonoCliente,string datosReferencia){
         Nombre = nombreCliente;
         Direccion = direccionCliente;

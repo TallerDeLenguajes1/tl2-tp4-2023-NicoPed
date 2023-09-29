@@ -6,29 +6,56 @@ public class Cadeteria{
     private string nombreCadeteria;
     private string telefonoCadeteria;
     private List<Cadete> listadoCadetes;
-    private List <Pedido> listadoPedido;
-    public List<Cadete> ListadoCadetes { get => listadoCadetes;  }
-    public string NombreCadeteria { get => nombreCadeteria;  }
-    public string TelefonoCadeteria { get => telefonoCadeteria; }
-    public List<Pedido> ListadoPedido { get => listadoPedido;  }
-    private AccesoADatosPedidos accesoPedidos = new AccesoADatosPedidos();
-    //NECESITO UN GET
-    private static Cadeteria cadeteriaSingleton;
-    public static Cadeteria getCadeteria(){
-        if (cadeteriaSingleton == null)
-        {
-            Cadeteria cadeteriaStatic;
-            AccesoADatos cargarDatosCSV = new AccesoCSV();
-            cadeteriaSingleton = cargarDatosCSV.leerArchivoCadeteria("CadeteriaHrms.csv");
-            cadeteriaSingleton.listadoCadetes = cargarDatosCSV.leerArchivoCadetes("CadetesInscriptos.csv");
+    private List<Pedido> listadoPedido;
+    public string TelefonoCadeteria { get => telefonoCadeteria; set => telefonoCadeteria = value; }
+    public string NombreCadeteria { get => nombreCadeteria; set => nombreCadeteria = value; }
+    public List<Cadete> ListadoCadetes { get => listadoCadetes; }
+    public List<Pedido> ListadoPedido { get => listadoPedido; }
+    private AccesoADatosPedidos accesoPedidos;
+    private AccesoADatosCadeteria accesoCadeteria;
+    private AccesoADatosCadetes accesoCadetes;
+    // private static Cadeteria cadeteriaSingleton;
+    private static Cadeteria instance;
+    // public static Cadeteria getCadeteria(){
+    //     if (cadeteriaSingleton == null)
+    //     {
+    //         Cadeteria cadeteriaStatic;
+    //         AccesoADatos cargarDatosCSV = new AccesoCSV();
+    //         cadeteriaSingleton = cargarDatosCSV.leerArchivoCadeteria("CadeteriaHrms.csv");
+    //         cadeteriaSingleton.listadoCadetes = cargarDatosCSV.leerArchivoCadetes("CadetesInscriptos.csv");
+    //     }
+    //     return cadeteriaSingleton;
+    // }
+    public static Cadeteria GetInstance(){
+        if (instance == null)
+        {//NO es un constructor
+            instance = new AccesoADatosCadeteria().Obtener();
+            instance.accesoCadetes = new AccesoADatosCadetes ();
+            instance.accesoPedidos = new AccesoADatosPedidos ();
+            instance.CargarCadetes();
+            instance.CargarPedido();
         }
-        return cadeteriaSingleton;
+        return instance;
     }
+
+    public Cadeteria(){
+        
+    }
+    private void CargarPedido()
+    {
+        listadoPedido = accesoPedidos.Obtener();
+    }
+
+    private void CargarCadetes()
+    {
+        listadoCadetes = accesoCadetes.Obtener();
+    }
+
     public Cadeteria(string Nombre, string Telefono){
         nombreCadeteria = Nombre;
-        telefonoCadeteria = Telefono;
-        listadoCadetes = new List<Cadete>();
-        listadoPedido = new List<Pedido>();
+        TelefonoCadeteria = Telefono;
+        // listadoCadetes = new List<Cadete>();
+        // listadoPedido = new List<Pedido>();
     }
     public bool EliminarPedido(int numeroPedido){
         var pedidoACambiar = BuscarPedido(numeroPedido);
@@ -53,7 +80,7 @@ public class Cadeteria{
         {
             if (pedidoACambiar.CambiarPedidoDeEstado())
             {
-                accesoPedidos.Guardar(listadoPedido);
+                accesoPedidos.Guardar(ListadoPedido);
                 return true;
             }
         }
@@ -61,7 +88,7 @@ public class Cadeteria{
     }
     public Cadete buscarCadete(int idCadete){
         Cadete cadeteBuscado;
-        cadeteBuscado = listadoCadetes.FirstOrDefault(cade => cade.IdCadete == idCadete);
+        cadeteBuscado = ListadoCadetes.FirstOrDefault(cade => cade.IdCadete == idCadete);
         return cadeteBuscado;
     }
     public Pedido BuscarPedido(int numeroPedido){
@@ -78,7 +105,7 @@ public class Cadeteria{
                 if (buscarCadete(idDelCadete) != null)
                 {
                     pedioAsignar.IdCadete = idDelCadete;
-                    accesoPedidos.Guardar(listadoPedido);
+                    accesoPedidos.Guardar(ListadoPedido);
                     return true;
                 }
             }
@@ -87,44 +114,43 @@ public class Cadeteria{
     }
     public float JornalACobrar(int idCadete){
         float aCobrar = constantes.CobroPorEnvio;
-        var pedidosRealizados = from pedi in listadoPedido 
+        var pedidosRealizados = from pedi in ListadoPedido 
         where pedi.IdCadete == idCadete && pedi.Estado == Estado.Entregado 
         select pedi;
         aCobrar *= pedidosRealizados.Count();
         return aCobrar;
     }
-    
     public void AgregarCadete(int IdCadete, string NombreCadete, string DireccionCadete, string TelefonoCadete){
         Cadete nuevoCadete = new Cadete(IdCadete,NombreCadete,DireccionCadete,TelefonoCadete);
         ListadoCadetes.Add(nuevoCadete);
     }
-    public void CargarCadetes(List <Cadete> listadoCadetes){
-        ListadoCadetes.AddRange(listadoCadetes);
-    }
+    // public void CargarCadetes(List <Cadete> listadoCadetes){
+    //     ListadoCadetes.AddRange(listadoCadetes);
+    // }
     public Pedido AgregarPedido(string observacionPedido, string nombreCliente, string direccionCliente, string telefonoCliente, string datoDeReferencia){
         Pedido nuevoPedido = new Pedido(observacionPedido,nombreCliente,direccionCliente,telefonoCliente,datoDeReferencia);
         if (nuevoPedido != null)
         {
-            listadoPedido.Add(nuevoPedido);
-            nuevoPedido.NroPedido = listadoPedido.Count;
-            accesoPedidos.Guardar(listadoPedido);
+            ListadoPedido.Add(nuevoPedido);
+            nuevoPedido.NroPedido = ListadoPedido.Count;
+            accesoPedidos.Guardar(ListadoPedido);
         }
             return nuevoPedido;
 
     }
     public Pedido AgregarPedido(Pedido pedido){
-        listadoPedido.Add(pedido);
-        pedido.NroPedido = listadoPedido.Count;
-        accesoPedidos.Guardar(listadoPedido);
+        ListadoPedido.Add(pedido);
+        pedido.NroPedido = ListadoPedido.Count;
+        accesoPedidos.Guardar(ListadoPedido);
         return pedido;
     }
     public string mostrarDatosCadeteria(){
-        string datosCadeteria = nombreCadeteria + " - " + telefonoCadeteria;
+        string datosCadeteria = nombreCadeteria + " - " + TelefonoCadeteria;
         return datosCadeteria;
     }
     public string mostrarPedidos(){
         StringBuilder listadoDePedidos = new StringBuilder();
-        foreach (var pedido in listadoPedido)
+        foreach (var pedido in ListadoPedido)
         {
             listadoDePedidos.AppendLine(pedido.DatosDelPedido());
         }
@@ -132,7 +158,7 @@ public class Cadeteria{
     }
     public string mostrarCadetes(){
         StringBuilder listadoDeCadetes = new StringBuilder();
-        foreach (var cade in listadoCadetes)
+        foreach (var cade in ListadoCadetes)
         {
             listadoDeCadetes.AppendLine(cade.MostrarInfo());
         }

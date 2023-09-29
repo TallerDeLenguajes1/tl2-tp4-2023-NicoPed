@@ -4,8 +4,9 @@ using System.Text.Json;
 namespace webApiTP4;
 
 public class AccesoADatosCadetes{
-    public List<Cadete> Obtener (string nombreArchivo){
+    public List<Cadete> Obtener (){
         string? archivo;
+        string nombreArchivo = "cadetes.json";
         List<Cadete> nuevaListaDeCadetes = new List<Cadete>();
         using (var archivoOpen = new FileStream(nombreArchivo, FileMode.Open))
         {
