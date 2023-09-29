@@ -28,7 +28,7 @@ public class Cadeteria{
     // }
     public static Cadeteria GetInstance(){
         if (instance == null)
-        {//NO es un constructor
+        {//NO es un constructorr
             instance = new AccesoADatosCadeteria().Obtener();
             instance.accesoCadetes = new AccesoADatosCadetes ();
             instance.accesoPedidos = new AccesoADatosPedidos ();
@@ -39,7 +39,7 @@ public class Cadeteria{
     }
 
     public Cadeteria(){
-        
+
     }
     private void CargarPedido()
     {
